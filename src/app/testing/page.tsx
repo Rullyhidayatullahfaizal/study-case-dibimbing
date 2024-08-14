@@ -7,7 +7,7 @@ import ModalComponents from '../components/modalform'
 const Testing = () => {
   return (
     <>
-    <Card></Card>
+    {/* <Card></Card> */}
     </>
   )
 }

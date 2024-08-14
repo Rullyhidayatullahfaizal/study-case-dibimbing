@@ -15,52 +15,41 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 interface ModalFormProps {
   isOpen: boolean;
   onClose: () => void;
   initialRef: React.RefObject<HTMLInputElement>;
   finalRef: React.RefObject<HTMLInputElement>;
-  noteId?: string; // Tambahkan ini untuk mengedit mode
-  initialTitle?: string; // Tambahkan ini untuk mengedit mode
-  initialBody?: string; // Tambahkan ini untuk mengedit mode
-  onSave: (updatedNote: any) => void; // Callback setelah note berhasil diupdate
+  addNote: (note: any) => void;
 }
 
-const ModalForm: React.FC<ModalFormProps> = ({
+const ModalFormAdd: React.FC<ModalFormProps> = ({
   isOpen,
   onClose,
   initialRef,
   finalRef,
-  noteId, // Digunakan untuk mengedit mode
-  initialTitle = "",
-  initialBody = "",
-  onSave,
+  addNote,
 }) => {
-  const [title, setTitle] = useState(initialTitle);
-  const [body, setBody] = useState(initialBody);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-  useEffect(() => {
-    setTitle(initialTitle);
-    setBody(initialBody);
-  }, [initialTitle, initialBody]);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      let response;
-      if (noteId) {
-        response = await axios.put(`/api/notes/${noteId}`, { title, body });
-      } else {
-        response = await axios.post("/api/notes", { title, body });
-      }
-
-      onSave(response.data); // Memanggil callback untuk memperbarui state di Home
-      onClose(); // Tutup modal setelah berhasil menyimpan
+      const response = await axios.post("/api/notes", { title, body });
+      console.log("Note created:", response.data);
+      addNote(response.data);
+      setTitle("");
+      setBody("");
+      onClose(); // Tutup modal setelah berhasil menambahkan catatan
+      console.log("Modal should close now");
     } catch (error) {
-      console.error("Failed to save note:", error);
+      console.error("Failed to add note:", error);
     }
   };
 
@@ -75,7 +64,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>{noteId ? "Edit Your Note" : "Add Your Note"}</ModalHeader>
+            <ModalHeader>Add Your Notes</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl>
@@ -100,7 +89,12 @@ const ModalForm: React.FC<ModalFormProps> = ({
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="gray" mr={3} type="submit" onClick={handleSubmit}>
+              <Button
+                colorScheme="gray"
+                mr={3}
+                type="submit"
+                onClick={handleSubmit}
+              >
                 Save
               </Button>
               <Button onClick={onClose}>Cancel</Button>
@@ -112,4 +106,4 @@ const ModalForm: React.FC<ModalFormProps> = ({
   );
 };
 
-export default ModalForm;
+export default ModalFormAdd;

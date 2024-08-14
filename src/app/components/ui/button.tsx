@@ -1,11 +1,11 @@
 import { Button, Stack } from '@chakra-ui/react'
 import React from 'react'
 
-const ButtonChakra = ({ children }: { children: React.ReactNode }) => {
+const ButtonChakra = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => {
   return (
-    <Button colorScheme='gray' size='sm'  iconSpacing="6" w={20}>
-    {children}
-  </Button>
+    <Button colorScheme='gray' size='sm' iconSpacing="6" w={20} onClick={onClick}>
+      {children}
+    </Button>
   )
 }
 
