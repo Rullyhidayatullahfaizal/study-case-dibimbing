@@ -10,12 +10,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   Modal,
   Textarea,
+  FormHelperText,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 interface ModalFormProps {
   isOpen: boolean;
@@ -35,7 +34,6 @@ const ModalFormAdd: React.FC<ModalFormProps> = ({
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +44,7 @@ const ModalFormAdd: React.FC<ModalFormProps> = ({
       addNote(response.data);
       setTitle("");
       setBody("");
-      onClose(); // Tutup modal setelah berhasil menambahkan catatan
-      console.log("Modal should close now");
+      onClose(); 
     } catch (error) {
       console.error("Failed to add note:", error);
     }
@@ -69,6 +66,7 @@ const ModalFormAdd: React.FC<ModalFormProps> = ({
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Title</FormLabel>
+                <FormHelperText color="red">*must fill it in</FormHelperText>
                 <Input
                   ref={initialRef}
                   placeholder="Title"

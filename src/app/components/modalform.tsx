@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Modal,
   Textarea,
+  FormHelperText,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -22,10 +23,10 @@ interface ModalFormProps {
   onClose: () => void;
   initialRef: React.RefObject<HTMLInputElement>;
   finalRef: React.RefObject<HTMLInputElement>;
-  noteId?: string; // Tambahkan ini untuk mengedit mode
-  initialTitle?: string; // Tambahkan ini untuk mengedit mode
-  initialBody?: string; // Tambahkan ini untuk mengedit mode
-  onSave: (updatedNote: any) => void; // Callback setelah note berhasil diupdate
+  noteId?: string; 
+  initialTitle?: string; 
+  initialBody?: string; 
+  onSave: (updatedNote: any) => void; 
 }
 
 const ModalForm: React.FC<ModalFormProps> = ({
@@ -33,7 +34,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
   onClose,
   initialRef,
   finalRef,
-  noteId, // Digunakan untuk mengedit mode
+  noteId, 
   initialTitle = "",
   initialBody = "",
   onSave,
@@ -57,8 +58,8 @@ const ModalForm: React.FC<ModalFormProps> = ({
         response = await axios.post("/api/notes", { title, body });
       }
 
-      onSave(response.data); // Memanggil callback untuk memperbarui state di Home
-      onClose(); // Tutup modal setelah berhasil menyimpan
+      onSave(response.data); 
+      onClose(); 
     } catch (error) {
       console.error("Failed to save note:", error);
     }
@@ -75,11 +76,15 @@ const ModalForm: React.FC<ModalFormProps> = ({
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>{noteId ? "Edit Your Note" : "Add Your Note"}</ModalHeader>
+            <ModalHeader>
+              {noteId ? "Edit Your Note" : "Add Your Note"}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Title</FormLabel>
+                <FormHelperText color="red">*must fill it in</FormHelperText>
+
                 <Input
                   ref={initialRef}
                   placeholder="Title"
@@ -100,7 +105,12 @@ const ModalForm: React.FC<ModalFormProps> = ({
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="gray" mr={3} type="submit" onClick={handleSubmit}>
+              <Button
+                colorScheme="gray"
+                mr={3}
+                type="submit"
+                onClick={handleSubmit}
+              >
                 Save
               </Button>
               <Button onClick={onClose}>Cancel</Button>

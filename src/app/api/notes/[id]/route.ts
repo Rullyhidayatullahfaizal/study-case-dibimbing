@@ -24,15 +24,15 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   const data = await request.json();
   const { title, body } = data;
 
-  if (!title || !body) {
-    return NextResponse.json({ error: "Title and body are required" }, { status: 400 });
+  if (!title) {
+    return NextResponse.json({ error: "Title is required" }, { status: 400 });
   }
 
   const note = await prisma.note.update({
     where: { id: parseInt(id) },
     data: {
       title,
-      body,
+      body: body || "", 
     },
   });
 

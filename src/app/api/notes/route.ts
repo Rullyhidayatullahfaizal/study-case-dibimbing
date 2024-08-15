@@ -8,19 +8,20 @@ export async function POST(request: Request) {
   const data = await request.json();
   const { title, body } = data;
 
-  if (!title || !body) {
-    return NextResponse.json({ error: "Title and body are required" }, { status: 400 });
+  if (!title) {
+    return NextResponse.json({ error: "Title is required" }, { status: 400 });
   }
 
   const note = await prisma.note.create({
     data: {
       title,
-      body,
+      body: body || "", 
     },
   });
 
   return NextResponse.json(note);
 }
+
 
 // Get all Notes
 export async function GET() {

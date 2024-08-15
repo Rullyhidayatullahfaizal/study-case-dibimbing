@@ -1,4 +1,4 @@
-import { Button, Stack } from '@chakra-ui/react'
+import { Button  } from '@chakra-ui/react'
 import React from 'react'
 
 const ButtonChakra = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => {

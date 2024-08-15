@@ -14,8 +14,8 @@ import {
   type Props = {
     isOpen: boolean;
     onClose: () => void;
-    noteId: string; // Tambahkan noteId sebagai props
-    onDelete: (noteId: string) => void; // Callback untuk menghapus note di parent
+    noteId: string; 
+    onDelete: (noteId: string) => void; 
     
   };
   
@@ -23,8 +23,8 @@ import {
     const handleDelete = async () => {
       try {
         await axios.delete(`/api/notes/${noteId}`);
-        onDelete(noteId); // Hapus note dari state di parent
-        onClose(); // Tutup modal setelah berhasil menghapus
+        onDelete(noteId); 
+        onClose(); 
       } catch (error) {
         console.error("Failed to delete note:", error);
       }

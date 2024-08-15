@@ -6,19 +6,18 @@ import ModalForm from "./modalform";
 import ModalClose from "./modal";
 import ModalView from "./modalview";
 
-// src/types.ts
 
 export type Note = {
   id: string;
   title: string;
   body: string;
-  createdAt: string; // Tambahkan field lain jika diperlukan
+  createdAt: string; 
 };
 
 type CardProps = {
   note: Note;
   onSave: (updatedNote: Note) => void;
-  onDelete: (noteId: string) => void; // Tambahkan callback onDelete
+  onDelete: (noteId: string) => void; 
 };
 
 const Card: React.FC<CardProps> = ({ note, onSave, onDelete }) => {
@@ -117,7 +116,7 @@ const Card: React.FC<CardProps> = ({ note, onSave, onDelete }) => {
         <ModalView
           isOpen={isOpenView}
           onClose={onCloseView}
-          title={note.title} // Kirim title ke ModalView
+          title={note.title} 
           body={note.body}
         />
       </div>
